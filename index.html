@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCine - Reproductor Privado</title>
+    
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    
+    <style>
+        /* Estilos CSS para el look 'Cine' */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Fondo negro puro */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            overflow: hidden; /* Evita scrolls raros */
+        }
+
+        /* Contenedor del Título */
+        #header {
+            padding: 15px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 10; /* Por encima del video */
+            box-sizing: border-box;
+        }
+
+        #video-title {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Corta el texto si es muy largo */
+        }
+
+        /* Contenedor del Reproductor para centrarlo */
+        .wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Ajustes específicos para Plyr en móvil */
+        .plyr {
+            width: 100%;
+            max-height: 100vh;
+        }
+
+        /* Personalización del color de acento de Plyr (puedes cambiar #e50914 por el que quieras, ej: azul o verde) */
+        :root {
+            --plyr-color-main: #e50914; /* Rojo tipo Netflix */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <h1 id="video-title">Cargando película...</h1>
+    </div>
+
+    <div class="wrapper">
+        <video id="player" playsinline controls>
+            </video>
+    </div>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    
+    <script>
+        // 1. Inicializar el reproductor Plyr
+        const player = new Plyr('#player', {
+            title: 'WebCine Player',
+            keyboard: { focused: true, global: true },
+            tooltips: { controls: true, seek: true },
+            captions: { active: true, update: true, language: 'es' }
+        });
+
+        // 2. Lógica para capturar parámetros de la URL
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split("&").forEach(function(pair) {
+                if (pair === "") return;
+                const parts = pair.split("=");
+                params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || "");
+            });
+            return params;
+        }
+
+        // 3. Aplicar los datos al reproductor y al título
+        const query = getQueryParams();
+        const videoUrl = query.video;
+        const videoTitle = query.title;
+
+        if (videoUrl) {
+            // Inyectamos la fuente del video
+            const videoElement = document.getElementById('player');
+            videoElement.src = videoUrl;
+            
+            // Actualizamos el título si existe, si no ponemos por defecto
+            if (videoTitle) {
+                // Reemplazamos guiones bajos por espacios para que se vea bien
+                document.getElementById('video-title').innerText = videoTitle.replace(/_/g, ' ');
+                document.title = "Viendo: " + videoTitle.replace(/_/g, ' ') + " | WebCine";
+            } else {
+                document.getElementById('video-title').innerText = "Reproducción de Video";
+            }
+        } else {
+            // Si no hay enlace de video
+            document.getElementById('video-title').innerText = "Error: No se proporcionó enlace de video.";
+            console.error("Falta el parámetro ?video=");
+        }
+    </script>
+</body>
+</html>
