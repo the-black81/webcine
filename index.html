@@ -8,37 +8,45 @@
     <style>
         body {
             margin: 0;
-            background: radial-gradient(circle, #2c2c2c 0%, #121212 100%);
+            /* GRIS CLARO ELEGANTE */
+            background: radial-gradient(circle, #4a4a4a 0%, #2b2b2b 100%);
             color: white;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center; /* Centrado vertical */
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .header { text-align: center; padding: 25px 0; }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
         .logo {
             font-size: 3.5rem;
             font-weight: 900;
-            color: #e50914;
+            color: #e50914; /* Rojo Cine */
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 5px;
-            text-shadow: 0 0 30px rgba(229, 9, 20, 0.4);
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
+
         .subtitle {
             font-size: 1.4rem;
             font-weight: 700;
             letter-spacing: 12px;
-            color: #fff;
+            color: #ffffff;
+            text-transform: uppercase;
             display: block;
             margin-top: -10px;
-            opacity: 0.8;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- TV CON EFECTO AMBILIGHT --- */
+        /* --- TELEVISIÓN LIMPIA --- */
         .tv-container {
             width: 95%;
             max-width: 950px;
@@ -46,20 +54,24 @@
             position: relative;
         }
 
-        .tv-frame {
-            background: #0c0c0c;
-            padding: 12px;
-            border-radius: 15px;
-            /* Efecto Ambilight Rojo */
-            box-shadow: 0 0 40px rgba(229, 9, 20, 0.2), 0 30px 60px rgba(0,0,0,0.9);
-            border: 1px solid #333;
-            position: relative;
-            transition: box-shadow 0.5s;
+        #video-title {
+            color: #ddd;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Brillo que parpadea suavemente */
-        .tv-frame:hover {
-            box-shadow: 0 0 60px rgba(229, 9, 20, 0.4), 0 30px 60px rgba(0,0,0,0.9);
+        .tv-frame {
+            background: #080808; 
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 
+                0 0 25px rgba(255, 255, 255, 0.05), 
+                0 30px 60px rgba(0,0,0,0.6);
+            border: 1px solid #111;
         }
 
         .tv-screen {
@@ -69,47 +81,43 @@
             border-radius: 4px;
         }
 
-        /* Soporte */
-        .tv-neck { width: 90px; height: 15px; background: #111; margin: -2px auto 0; }
-        .tv-base { width: 280px; height: 8px; background: #1a1a1a; margin: 0 auto; border-radius: 10px; }
-
-        /* Estado del Servidor */
-        .server-status {
-            margin-top: 15px;
-            font-size: 0.8rem;
-            color: #4caf50; /* Verde */
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .dot {
-            height: 8px;
-            width: 8px;
-            background-color: #4caf50;
-            border-radius: 50%;
-            display: inline-block;
-            animation: blink 1.5s infinite;
+        /* Peana mínima */
+        .tv-neck { width: 90px; height: 12px; background: #050505; margin: -2px auto 0; }
+        .tv-base { 
+            width: 280px; 
+            height: 6px; 
+            background: #000; 
+            margin: 0 auto; 
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        /* --- BOTÓN VLC --- */
+        .actions {
+            margin-top: 40px;
+            text-align: center;
+        }
 
         .vlc-btn {
             background: #ff8800;
             color: #000;
-            padding: 15px 40px;
+            padding: 16px 45px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 800;
+            font-size: 1rem;
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            margin-top: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
         }
 
-        #video-title { color: #888; margin-bottom: 10px; font-weight: 400; }
+        .vlc-btn:hover {
+            transform: scale(1.05);
+            background: #ffa500;
+        }
+
         :root { --plyr-color-main: #e50914; }
     </style>
 </head>
@@ -121,7 +129,7 @@
     </div>
 
     <div class="tv-container">
-        <div id="video-title">Cargando película...</div>
+        <div id="video-title">Cargando contenido...</div>
         <div class="tv-frame">
             <div class="tv-screen">
                 <video id="player" playsinline controls></video>
@@ -129,18 +137,14 @@
         </div>
         <div class="tv-neck"></div>
         <div class="tv-base"></div>
-        
-        <center>
-            <div class="server-status">
-                <span class="dot"></span> Servidor Streaming: Online
-            </div>
-        </center>
     </div>
 
-    <a id="vlc-link" href="#" class="vlc-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="22">
-        REPRODUCIR EN VLC
-    </a>
+    <div class="actions">
+        <a id="vlc-link" href="#" class="vlc-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="22">
+            REPRODUCIR EN VLC
+        </a>
+    </div>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <script>
@@ -152,7 +156,10 @@
         if (videoUrl) {
             document.getElementById('player').src = videoUrl;
             document.getElementById('vlc-link').href = "vlc://" + videoUrl;
-            if (title) document.getElementById('video-title').innerText = title.replace(/_/g, ' ').replace(/\.[^/.]+$/, "");
+            if (title) {
+                document.getElementById('video-title').innerText = title.replace(/_/g, ' ').replace(/\.[^/.]+$/, "");
+                document.title = title.replace(/_/g, ' ') + " | EL NEGRO";
+            }
         }
     </script>
 </body>
