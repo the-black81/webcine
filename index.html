@@ -11,7 +11,7 @@
     body {
         margin: 0;
         padding: 0;
-        background: #1a1a1a; /* Fondo gris oscuro elegante */
+        background: linear-gradient(180deg, #1a1a1a, #111); /* Fondo gris elegante */
         font-family: 'Poppins', sans-serif;
         color: white;
     }
@@ -57,31 +57,45 @@
         text-shadow: 0 0 10px #ff0000;
     }
 
-    /* TV moderna */
+    /* TV moderna real */
     .tv-frame {
         padding: 25px;
-        background: #111;
-        border-radius: 30px;
-        box-shadow: 0 0 40px rgba(255, 0, 0, 0.4), inset 0 0 25px #000;
-        border: 6px solid #222;
+        background: #0d0d0d;
+        border-radius: 35px;
+        border: 8px solid #1f1f1f;
+        box-shadow:
+            0 0 40px rgba(255, 0, 0, 0.4),
+            inset 0 0 25px rgba(0,0,0,0.8),
+            inset 0 0 60px rgba(0,0,0,0.6);
         position: relative;
     }
 
+    /* Reflejo superior */
     .tv-frame::before {
         content: "";
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 40%;
-        background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
-        border-radius: 30px 30px 0 0;
+        height: 35%;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.12), transparent);
+        border-radius: 35px 35px 0 0;
         pointer-events: none;
+    }
+
+    /* Base de TV */
+    .tv-base {
+        width: 180px;
+        height: 12px;
+        background: #111;
+        margin: 15px auto 0 auto;
+        border-radius: 6px;
+        box-shadow: 0 0 20px rgba(255,0,0,0.3);
     }
 
     video {
         width: 100%;
-        border-radius: 15px;
+        border-radius: 20px;
         box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
     }
 
@@ -95,13 +109,20 @@
         font-weight: bold;
         cursor: pointer;
         width: 100%;
-        margin-top: 15px;
+        margin-top: 20px;
         transition: 0.3s;
     }
 
     #vlcBtn:hover {
         transform: scale(1.05);
         box-shadow: 0 0 20px #ff0000;
+    }
+
+    .info {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #bbbbbb;
     }
 </style>
 </head>
@@ -117,8 +138,14 @@
     <div class="tv-frame">
         <video id="player" controls></video>
     </div>
+    <div class="tv-base"></div>
 
     <button id="vlcBtn">REPRODUCIR EN VLC</button>
+
+    <div class="info">
+        Para abrir en VLC usa Chrome o Edge en Android o Windows.<br>
+        En iPhone no es compatible.
+    </div>
 </div>
 
 <script>
@@ -129,22 +156,9 @@
     document.getElementById("player").src = videoURL;
     document.getElementById("tituloPelicula").innerText = titulo;
 
-    // MÉTODO 100% FUNCIONAL EN ANDROID Y WINDOWS (archivo .m3u)
+    // Intento máximo permitido por navegadores
     document.getElementById("vlcBtn").onclick = function () {
-
-        const m3uContent = "#EXTM3U\n" + videoURL;
-
-        const blob = new Blob([m3uContent], { type: "audio/x-mpegurl" });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "video.m3u";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
+        window.location.href = "vlc://" + videoURL;
     };
 </script>
 
