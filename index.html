@@ -1,166 +1,128 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebCine | EL NEGRO</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <style>
-        body {
-            margin: 0;
-            /* GRIS CLARO ELEGANTE */
-            background: radial-gradient(circle, #4a4a4a 0%, #2b2b2b 100%);
-            color: white;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* Centrado vertical */
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<title>WebCine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .header {
-            text-align: center;
-            padding-bottom: 20px;
-        }
+<!-- Fuente elegante -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-        .logo {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #e50914; /* Rojo Cine */
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle at top, #1a1a1a, #000);
+        font-family: 'Poppins', sans-serif;
+        color: white;
+    }
 
-        .subtitle {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: 12px;
-            color: #ffffff;
-            text-transform: uppercase;
-            display: block;
-            margin-top: -10px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
+    header {
+        text-align: center;
+        padding: 25px 0;
+        font-size: 40px;
+        font-weight: 700;
+        color: #ff8c00;
+        text-shadow: 0 0 10px #ff8c00;
+    }
 
-        /* --- TELEVISIÓN LIMPIA --- */
-        .tv-container {
-            width: 95%;
-            max-width: 950px;
-            margin: 20px auto;
-            position: relative;
-        }
+    .contenedor {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.6);
+        animation: fadeIn 0.8s ease;
+    }
 
-        #video-title {
-            color: #ddd;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        .tv-frame {
-            background: #080808; 
-            padding: 12px;
-            border-radius: 12px;
-            box-shadow: 
-                0 0 25px rgba(255, 255, 255, 0.05), 
-                0 30px 60px rgba(0,0,0,0.6);
-            border: 1px solid #111;
-        }
+    .titulo {
+        font-size: 32px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ff8c00;
+    }
 
-        .tv-screen {
-            background: #000;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
-            border-radius: 4px;
-        }
+    video {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 25px rgba(255, 140, 0, 0.4);
+    }
 
-        /* Peana mínima */
-        .tv-neck { width: 90px; height: 12px; background: #050505; margin: -2px auto 0; }
-        .tv-base { 
-            width: 280px; 
-            height: 6px; 
-            background: #000; 
-            margin: 0 auto; 
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-        }
+    #vlcBtn {
+        background: linear-gradient(90deg, #ff6600, #ff8c00);
+        color: white;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 15px;
+        transition: 0.3s;
+    }
 
-        /* --- BOTÓN VLC --- */
-        .actions {
-            margin-top: 40px;
-            text-align: center;
-        }
+    #vlcBtn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #ff8c00;
+    }
 
-        .vlc-btn {
-            background: #ff8800;
-            color: #000;
-            padding: 16px 45px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: 0.3s;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-        }
+    #copyBtn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 12px;
+        background: #333;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 
-        .vlc-btn:hover {
-            transform: scale(1.05);
-            background: #ffa500;
-        }
-
-        :root { --plyr-color-main: #e50914; }
-    </style>
+    #copyBtn:hover {
+        background: #444;
+    }
+</style>
 </head>
+
 <body>
 
-    <div class="header">
-        <h1 class="logo">WebCine</h1>
-        <span class="subtitle">EL NEGRO</span>
-    </div>
+<header>🎬 WEB CINE</header>
 
-    <div class="tv-container">
-        <div id="video-title">Cargando contenido...</div>
-        <div class="tv-frame">
-            <div class="tv-screen">
-                <video id="player" playsinline controls></video>
-            </div>
-        </div>
-        <div class="tv-neck"></div>
-        <div class="tv-base"></div>
-    </div>
+<div class="contenedor">
+    <div class="titulo" id="tituloPelicula">Cargando...</div>
 
-    <div class="actions">
-        <a id="vlc-link" href="#" class="vlc-btn">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="22">
-            REPRODUCIR EN VLC
-        </a>
-    </div>
+    <video id="player" controls></video>
 
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-    <script>
-        const player = new Plyr('#player');
-        const params = new URLSearchParams(window.location.search);
-        const videoUrl = params.get('video');
-        const title = params.get('title');
+    <button id="vlcBtn">REPRODUCIR EN VLC</button>
+    <button id="copyBtn">COPIAR ENLACE DIRECTO</button>
+</div>
 
-        if (videoUrl) {
-            document.getElementById('player').src = videoUrl;
-            document.getElementById('vlc-link').href = "vlc://" + videoUrl;
-            if (title) {
-                document.getElementById('video-title').innerText = title.replace(/_/g, ' ').replace(/\.[^/.]+$/, "");
-                document.title = title.replace(/_/g, ' ') + " | EL NEGRO";
-            }
-        }
-    </script>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const videoURL = params.get("video");
+    const titulo = params.get("title");
+
+    document.getElementById("player").src = videoURL;
+    document.getElementById("tituloPelicula").innerText = titulo;
+
+    document.getElementById("vlcBtn").onclick = function () {
+        window.location.href = "vlc://" + videoURL;
+    };
+
+    document.getElementById("copyBtn").onclick = function () {
+        navigator.clipboard.writeText(videoURL);
+        alert("Enlace copiado al portapapeles");
+    };
+</script>
+
 </body>
 </html>
