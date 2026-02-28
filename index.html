@@ -4,230 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebCine | EL NEGRO</title>
-    
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    
     <style>
-        :root {
-            --plyr-color-main: #e50914; /* Rojo Cine */
-        }
-        
         body {
             margin: 0;
-            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+            background: #0a0a0a url('https://www.transparenttextures.com/patterns/dark-matter.png');
             color: white;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* Cabecera con identidad */
-        .navbar {
-            width: 100%;
-            padding: 30px 0 10px 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        .logo-container {
             text-align: center;
-            z-index: 10;
+            margin-top: 20px;
         }
 
         .logo {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
-            color: #e50914; 
-            text-transform: uppercase;
-            letter-spacing: 4px;
+            color: #e50914;
             margin: 0;
-            text-shadow: 0 0 20px rgba(229, 9, 20, 0.7);
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ffffff;
             letter-spacing: 10px;
-            margin-top: -5px;
-            text-transform: uppercase;
-            opacity: 0.8;
+            font-weight: bold;
+            color: #fff;
         }
 
-        /* Título de la película */
-        .title-box {
-            margin: 10px 0 20px 0;
-            padding: 8px 20px;
-            background: rgba(255,255,255,0.05);
-            border-left: 4px solid #e50914;
-            max-width: 85%;
-            border-radius: 4px;
-            text-align: center;
+        /* --- EL TRUCO DE LA TELEVISIÓN REAL --- */
+        .tv-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        /* Imagen del marco de la TV */
+        .tv-frame-img {
+            width: 100%;
+            display: block;
+            position: relative;
+            z-index: 10;
+            pointer-events: none; /* Para que puedas clicar el video a través del marco */
+        }
+
+        /* Contenedor del video ajustado al hueco de la pantalla */
+        .video-inside {
+            position: absolute;
+            top: 5%;    /* Ajuste para que encaje en el hueco del marco */
+            left: 2.5%; /* Ajuste lateral */
+            width: 95%; /* Ancho del hueco */
+            height: 82%; /* Alto del hueco */
+            z-index: 5;
+            background: #000;
+        }
+
+        .plyr {
+            height: 100%;
+        }
+
+        /* Botón VLC debajo */
+        .vlc-btn {
+            background: #ff8800;
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
         #video-title {
-            font-size: 1rem;
-            margin: 0;
-            color: #eee;
-            font-weight: 400;
-        }
-
-        /* --- DISEÑO DE LA TELEVISIÓN --- */
-        .tv-container {
-            width: 95%;
-            max-width: 1000px;
-            margin: 0 auto 30px auto;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Marco de la TV */
-        .tv-frame {
-            width: 100%;
-            background: #080808; /* Negro casi puro para el marco */
-            border-radius: 15px; /* Bordes redondeados modernos */
-            padding: 15px; /* Ancho del marco */
-            box-shadow: 
-                0 0 0 3px #1a1a1a, /* Borde interior metálico */
-                0 20px 50px rgba(0,0,0,1), /* Sombra proyectada */
-                inset 0 0 30px rgba(255,255,255,0.05); /* Reflejo sutil en el marco */
-            position: relative;
-            box-sizing: border-box;
-            border: 2px solid #222;
-        }
-
-        /* La pantalla real donde va el video */
-        .tv-screen {
-            width: 100%;
-            background: #000;
-            border-radius: 5px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Peana (soporte) de la TV */
-        .tv-stand {
-            width: 30%;
-            height: 25px;
-            background: linear-gradient(to bottom, #111, #000);
-            border-radius: 0 0 10px 10px;
-            margin-top: -5px; /* Para que encaje bajo el marco */
-            z-index: -1;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            border: 1px solid #222;
-        }
-
-        .tv-base {
-            width: 50%;
-            height: 10px;
-            background: #050505;
-            border-radius: 10px;
-            margin-top: -5px;
-            z-index: -2;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.9);
-        }
-
-        /* Reflejo de luz sutil en la pantalla apagada */
-        .tv-screen::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 50%);
-            pointer-events: none; /* No interfiere con los controles */
-            z-index: 2;
-        }
-
-        /* --- FIN DISEÑO TELEVISIÓN --- */
-
-        /* Botones de Acción */
-        .actions {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        .vlc-btn {
-            background-color: #ff8800; /* Naranja VLC */
-            color: #000;
-            box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
-        }
-
-        .vlc-btn:hover {
-            transform: translateY(-3px);
-            background-color: #ffa500;
-            box-shadow: 0 8px 20px rgba(255, 136, 0, 0.5);
+            margin-bottom: 20px;
+            color: #888;
         }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
+    <div class="logo-container">
         <h1 class="logo">WebCine</h1>
         <div class="subtitle">EL NEGRO</div>
     </div>
 
-    <div class="title-box">
-        <h2 id="video-title">Preparando tu TV...</h2>
-    </div>
-
-    <div class="tv-container">
-        <div class="tv-frame">
-            <div class="tv-screen">
-                <video id="player" playsinline controls></video>
-            </div>
+    <div class="tv-wrapper">
+        <img src="https://i.imgur.com/7S69R2V.png" class="tv-frame-img" alt="TV Frame">
+        
+        <div class="video-inside">
+            <video id="player" playsinline controls></video>
         </div>
-        <div class="tv-stand"></div>
-        <div class="tv-base"></div>
     </div>
 
-    <div class="actions">
-        <a id="vlc-link" href="#" class="btn vlc-btn">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="20" alt="VLC">
-            Ver en VLC (Soluciona bloqueos)
-        </a>
-    </div>
+    <h2 id="video-title">Cargando...</h2>
+
+    <a id="vlc-link" href="#" class="vlc-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="20">
+        REPRODUCIR EN VLC
+    </a>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <script>
-        // Inicializar Plyr
         const player = new Plyr('#player');
-
-        // Capturar parámetros
-        const urlParams = new URLSearchParams(window.location.search);
-        const videoUrl = urlParams.get('video');
-        const videoTitle = urlParams.get('title');
+        const params = new URLSearchParams(window.location.search);
+        const videoUrl = params.get('video');
+        const title = params.get('title');
 
         if (videoUrl) {
             document.getElementById('player').src = videoUrl;
             document.getElementById('vlc-link').href = "vlc://" + videoUrl;
-
-            // Poner el nombre bonito
-            if (videoTitle) {
-                const cleanTitle = videoTitle.replace(/_/g, ' ').replace(/\.[^/.]+$/, "");
-                document.getElementById('video-title').innerText = cleanTitle;
-                document.title = cleanTitle + " | WebCine EL NEGRO";
-            }
-        } else {
-            document.getElementById('video-title').innerText = "Error: No hay enlace de video.";
+            if (title) document.getElementById('video-title').innerText = title.replace(/_/g, ' ');
         }
     </script>
 </body>
