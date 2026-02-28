@@ -8,127 +8,163 @@
     <style>
         body {
             margin: 0;
-            /* Fondo de salón oscuro de lujo */
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1593784991095-a205029471b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            /* Fondo Gris Oscuro solicitado */
+            background: radial-gradient(circle, #2c2c2c 0%, #1a1a1a 100%);
             color: white;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .header {
             text-align: center;
-            padding: 40px 0;
-            transition: opacity 0.5s;
+            padding: 30px 0 10px 0;
         }
 
         .logo {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            color: #e50914;
+            color: #e50914; /* Rojo Cine */
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 10px;
-            text-shadow: 0 0 30px rgba(229, 9, 20, 0.8);
+            letter-spacing: 6px;
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
         }
 
         .subtitle {
-            font-size: 1.5rem;
-            letter-spacing: 15px;
-            color: #fff;
-            opacity: 0.6;
-            font-weight: 300;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 12px;
+            color: #ffffff;
+            text-transform: uppercase;
+            display: block;
+            margin-top: -10px;
+            opacity: 0.9;
         }
 
-        /* El marco de la TV "Flotante" */
-        .cinema-screen {
-            width: 90%;
-            max-width: 1100px;
+        /* --- DISEÑO DE TELEVISIÓN REALISTA --- */
+        .tv-container {
+            width: 95%;
+            max-width: 950px;
+            margin: 30px auto;
             position: relative;
-            border: 8px solid #111;
-            border-radius: 5px;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
-            background: #000;
-            transform: perspective(1000px) rotateX(2deg);
         }
 
-        /* Botonera de lujo */
-        .controls-area {
-            margin-top: 50px;
-            display: flex;
-            gap: 20px;
-            z-index: 10;
+        .tv-frame {
+            background: #0c0c0c;
+            padding: 15px 15px 25px 15px; /* Marco más grueso abajo */
+            border-radius: 20px;
+            box-shadow: 
+                0 0 0 4px #333, 
+                0 30px 60px rgba(0,0,0,0.8);
+            border: 1px solid #444;
+            position: relative;
         }
 
-        .btn-luxury {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 15px 35px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-luxury:hover {
+        /* Indicador de encendido de la TV */
+        .tv-frame::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
             background: #e50914;
-            border-color: #e50914;
-            transform: translateY(-5px);
+            border-radius: 50%;
+            box-shadow: 0 0 8px #e50914;
         }
 
-        .vlc-special {
-            background: #ff8800;
-            color: black;
+        .tv-screen {
+            background: #000;
+            border-radius: 5px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0,0,0,1);
         }
 
-        #video-info {
-            margin-top: 20px;
-            font-style: italic;
-            color: #aaa;
+        /* Soporte / Peana */
+        .tv-neck {
+            width: 100px;
+            height: 15px;
+            background: #111;
+            margin: -5px auto 0;
+            border: 1px solid #222;
         }
 
-        /* Estilo para cuando el video falla */
-        #fix-link {
-            display: none;
-            color: #ff4d4d;
-            margin-top: 10px;
-            text-decoration: underline;
-            cursor: pointer;
+        .tv-base {
+            width: 300px;
+            height: 12px;
+            background: linear-gradient(to bottom, #1a1a1a, #000);
+            margin: 0 auto;
+            border-radius: 20px 20px 5px 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
         }
+
+        /* --- BOTÓN VLC --- */
+        .actions {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .vlc-btn {
+            background: #ff8800; /* Naranja VLC */
+            color: #000;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(255, 136, 0, 0.2);
+        }
+
+        .vlc-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            background: #ffa500;
+            box-shadow: 0 15px 25px rgba(255, 136, 0, 0.4);
+        }
+
+        #video-title {
+            color: #bbb;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        :root { --plyr-color-main: #e50914; }
     </style>
 </head>
 <body>
 
-    <div class="header" id="header">
+    <div class="header">
         <h1 class="logo">WebCine</h1>
         <span class="subtitle">EL NEGRO</span>
     </div>
 
-    <div class="cinema-screen">
-        <video id="player" playsinline controls></video>
+    <div class="tv-container">
+        <div id="video-title">Cargando película...</div>
+        <div class="tv-frame">
+            <div class="tv-screen">
+                <video id="player" playsinline controls></video>
+            </div>
+        </div>
+        <div class="tv-neck"></div>
+        <div class="tv-base"></div>
     </div>
 
-    <div id="video-info">Preparando proyección...</div>
-    <div id="fix-link" onclick="fixMixedContent()">⚠️ ¿No carga? Haz clic aquí para desbloquear el video.</div>
-
-    <div class="controls-area">
-        <a id="vlc-link" href="#" class="btn-luxury vlc-special">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="20">
-            ABRIR EN VLC
+    <div class="actions">
+        <a id="vlc-link" href="#" class="vlc-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/VLC_Icon.svg" width="22">
+            REPRODUCIR EN VLC
         </a>
-        <a href="https://t.me/TuBotDeTelegram" class="btn-luxury">VOLVER AL BOT</a>
     </div>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
@@ -140,28 +176,15 @@
 
         if (videoUrl) {
             document.getElementById('player').src = videoUrl;
-            document.getElementById('vlc-link').href = "vlc://" + videoUrl;
             
-            if (title) document.getElementById('video-info').innerText = "Viendo ahora: " + title.replace(/_/g, ' ');
+            // Configuración funcional de VLC
+            const vlcBtn = document.getElementById('vlc-link');
+            vlcBtn.href = "vlc://" + videoUrl;
 
-            // Si el video es HTTP, mostramos el botón de ayuda
-            if (videoUrl.startsWith('http://')) {
-                document.getElementById('fix-link').style.display = 'block';
+            if (title) {
+                document.getElementById('video-title').innerText = title.replace(/_/g, ' ').replace(/\.[^/.]+$/, "");
             }
         }
-
-        function fixMixedContent() {
-            // Abrimos el video directamente en una pestaña para que el navegador pida permiso
-            window.open(videoUrl, '_blank');
-        }
-
-        // Efecto "Luces fuera" al dar al play
-        player.on('play', () => {
-            document.getElementById('header').style.opacity = '0.1';
-        });
-        player.on('pause', () => {
-            document.getElementById('header').style.opacity = '1';
-        });
     </script>
 </body>
 </html>
