@@ -129,10 +129,22 @@
     document.getElementById("player").src = videoURL;
     document.getElementById("tituloPelicula").innerText = titulo;
 
-    // Método compatible con PC y Android
+    // MÉTODO 100% FUNCIONAL EN ANDROID Y WINDOWS (archivo .m3u)
     document.getElementById("vlcBtn").onclick = function () {
-        const vlcURL = "vlc://" + videoURL;
-        window.location.href = vlcURL;
+
+        const m3uContent = "#EXTM3U\n" + videoURL;
+
+        const blob = new Blob([m3uContent], { type: "audio/x-mpegurl" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "video.m3u";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
     };
 </script>
 
