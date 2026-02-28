@@ -11,7 +11,7 @@
     body {
         margin: 0;
         padding: 0;
-        background: linear-gradient(180deg, #1a1a1a, #111); /* Fondo gris elegante */
+        background: linear-gradient(180deg, #1a1a1a, #111);
         font-family: 'Poppins', sans-serif;
         color: white;
     }
@@ -57,7 +57,7 @@
         text-shadow: 0 0 10px #ff0000;
     }
 
-    /* TV moderna real */
+    /* TV moderna */
     .tv-frame {
         padding: 25px;
         background: #0d0d0d;
@@ -70,7 +70,6 @@
         position: relative;
     }
 
-    /* Reflejo superior */
     .tv-frame::before {
         content: "";
         position: absolute;
@@ -83,7 +82,6 @@
         pointer-events: none;
     }
 
-    /* Base de TV */
     .tv-base {
         width: 180px;
         height: 12px;
@@ -119,10 +117,14 @@
     }
 
     .info {
-        margin-top: 10px;
-        text-align: center;
+        margin-top: 15px;
+        padding: 12px;
+        background: #330000;
+        border-left: 4px solid #ff0000;
+        border-radius: 6px;
+        color: #ffcccc;
         font-size: 14px;
-        color: #bbbbbb;
+        text-align: center;
     }
 </style>
 </head>
@@ -143,8 +145,7 @@
     <button id="vlcBtn">REPRODUCIR EN VLC</button>
 
     <div class="info">
-        Para abrir en VLC usa Chrome o Edge en Android o Windows.<br>
-        En iPhone no es compatible.
+        Si VLC no se abre automáticamente, abre Chrome o Edge y selecciona VLC al pulsar el botón.
     </div>
 </div>
 
@@ -156,7 +157,6 @@
     document.getElementById("player").src = videoURL;
     document.getElementById("tituloPelicula").innerText = titulo;
 
-    // Intento máximo permitido por navegadores
     document.getElementById("vlcBtn").onclick = function () {
         window.location.href = "vlc://" + videoURL;
     };
